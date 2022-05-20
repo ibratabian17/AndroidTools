@@ -1,3 +1,5 @@
+. misc/env.sh
+CurrentDir=$(pwd)
 BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
@@ -11,15 +13,20 @@ WHITE=$(tput setaf 7)
 BRIGHT=$(tput bold)
 NORMAL=$(tput sgr0)
 
-printf "${YELLOW} Script Created By Ibratabian17\n"
-printf "${BLUE} DON'T ABUSE THIS SCRIPT!!!!!!!!!!!!\n\n"
+printf "${YELLOW} Script Dibuat Oleh Ibratabian17\n"
+printf "${BLUE} JANGAN MENYALAH GUNAKAN SCRIPT INI!!!!!!!!\n\n"
 
-printf "${WHITE} Token May Needed\n"
-printf "${BLUE} Replace \"INPUTGHPHERE\" To Your Token\n"
-printf "${RED} Loading Script\n"
+  if [ -z "GithubToken" ]
+  then
+  printf "${WHITE} Token Is Needed!, You need place it in misc/env.sh \n"
+  else
+  printf "${RED} Running...\n"
+  fi 
 
-clonepixeltoswift(){
-  printf "${RED} Starting Clone From Pixel\n"
+
+
+clonepixeltotarget(){
+  printf "${RED} Starting Clone Pixel\n"
   mkdir temp
   reponame=$1
   branch=$2
@@ -31,23 +38,23 @@ clonepixeltoswift(){
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/android_$reponame
-  printf "${YELLOW} Creating New Repo by $reponame to android_$reponame\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py android_$reponame
+  git remote add origin https://github.com/$TargetOrg/$PrefixRepo$reponame
+  printf "${YELLOW} Creating New Repo From $reponame to $PrefixRepo$reponame\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $PrefixRepo$reponame
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
   fi
   cd ../
   rm -rf temp/
-  printf "${GREEN}Clone Pixel To Swift Done!\n"
+  printf "${GREEN}Clone Pixel To $TargetOrg Done!\n"
 }
-clonelineagetoswift(){
-  printf "${RED} Starting Clone From Lineage\n"
+clonelineagetotarget(){
+  printf "${RED} Starting Clone Lineage\n"
   mkdir temp
   reponame=$1
   branch=$2
@@ -59,70 +66,70 @@ clonelineagetoswift(){
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/$reponame
-  printf "${YELLOW} Creating New Repo by $reponame\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py $reponame
+  git remote add origin https://github.com/$TargetOrg/$reponame
+  printf "${YELLOW} Creating New Repo With Name  $reponame\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $reponame
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
   fi
   cd ../
   rm -rf temp/
-  printf "${GREEN}Clone Lineage To Swift Done!\n"
+  printf "${GREEN}Clone Lineage To $TargetOrg Done!\n"
 }
-clonearrowtoswift(){
-  printf "${RED} Starting Clone From Arrow\n"
+clonearrowtotarget(){
+  printf "${RED} Starting Clone Arrow\n"
   mkdir temp
   reponame=$1
   branch=$2
   if [ -z "$2" ]
   then
-  git clone --quiet https://github.com/ArrowOS/$reponame -b arrow-12.0 temp/ 
+  git clone --quiet https://github.com/ArrowOS/$reponame -b arrow-12.1 temp/ 
   else
   git clone --quiet https://github.com/ArrowOS/$reponame -b $branch temp/ 
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/$reponame
-  printf "${YELLOW} Creating New Repo by $reponame\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py $reponame
+  git remote add origin https://github.com/$TargetOrg/$reponame
+  printf "${YELLOW} Creating New Repo With Name  $reponame\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $reponame
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
   fi
   cd ../
   rm -rf temp/
-  printf "${GREEN}Clone Arrow To Swift Done!\n"
+  printf "${GREEN}Clone Arrow To $TargetOrg Done!\n"
 }
-cloneaosptoswift(){
-  printf "${RED} Starting Clone From AOSP\n"
+cloneaosptotarget(){
+  printf "${RED} Starting Clone AOSP\n"
   mkdir temp
   reponame=$1
   branch=$2
   echo $reponame > ~/aosptempla
   if [ -z "$2" ]
   then
-  git clone --quiet https://android.googlesource.com/platform/$reponame -b android-12.0.0_r32 temp/ 
+  git clone --quiet https://android.googlesource.com/platform/$reponame -b android-12.1.0.0_r5 temp/ 
   else
   git clone --quiet https://android.googlesource.com/platform/$reponame -b $branch temp/ 
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/android_$(sed 's/\//_/g' ~/aosptempla)
-  printf "${YELLOW} Creating New Repo by $reponame to android_$(sed 's/\//_/g' ~/aosptempla)\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py android_$(sed 's/\//_/g' ~/aosptempla)
+  git remote add origin https://github.com/$TargetOrg/$PrefixRepo$(sed 's/\//_/g' ~/aosptempla)
+  printf "${YELLOW} Creating New Repo From $reponame to $PrefixRepo$(sed 's/\//_/g' ~/aosptempla)\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $PrefixRepo$(sed 's/\//_/g' ~/aosptempla)
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
@@ -130,29 +137,29 @@ cloneaosptoswift(){
   cd ../
   rm -rf temp/
   rm -rf ~/aosptempla
-  printf "${GREEN}Clone AOSP To Swift Done!\n"
+  printf "${GREEN}Clone AOSP To $TargetOrg Done!\n"
 }
-cloneaosptoswiftloop(){
-  printf "${RED} Starting Clone From AOSP By loop\n"
+cloneaosptotargetloop(){
+  printf "${RED} Starting Clone AOSP secara loop\n"
   mkdir temp
   reponame=$1
   branch=$2
   echo $reponame > ~/aosptempla
   if [ -z "$2" ]
   then
-  git clone --quiet https://android.googlesource.com/platform/$reponame -b android-12.0.0_r32 temp/ 
+  git clone --quiet https://android.googlesource.com/platform/$reponame -b android-12.1.0.0_r5 temp/ 
   else
   git clone --quiet https://android.googlesource.com/platform/$reponame -b $branch temp/ 
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/android_$(sed 's/\//_/g' ~/aosptempla)
-  printf "${YELLOW} Creating New Repo by $reponame to android_$(sed 's/\//_/g' ~/aosptempla)\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py android_$(sed 's/\//_/g' ~/aosptempla)
+  git remote add origin https://github.com/$TargetOrg/$PrefixRepo$(sed 's/\//_/g' ~/aosptempla)
+  printf "${YELLOW} Creating New Repo From $reponame to $PrefixRepo$(sed 's/\//_/g' ~/aosptempla)\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $PrefixRepo$(sed 's/\//_/g' ~/aosptempla)
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  gitpushloop 100000 12
+  git checkout -b 12.1
+  gitpushloop 100000 12.1
   else
   git checkout -b $3
   gitpushloop 100000 $3
@@ -160,10 +167,10 @@ cloneaosptoswiftloop(){
   cd ../
   rm -rf temp/
   rm -rf ~/aosptempla
-  printf "${GREEN}Clone AOSP To Swift Done!\n"
+  printf "${GREEN}Clone AOSP To $TargetOrg Done!\n"
 }
-clonegitlabpixeltoswift(){
-  printf "${RED} Starting Clone From Gitlab Pixel\n"
+clonegitlabpixeltotarget(){
+  printf "${RED} Starting Clone Gitlab Pixel\n"
   mkdir temp
   reponame=$1
   branch=$2
@@ -175,23 +182,23 @@ clonegitlabpixeltoswift(){
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/android_$reponame
-  printf "${YELLOW} Creating New Repo by $reponame to android_$reponame\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py android_$reponame
+  git remote add origin https://github.com/$TargetOrg/$PrefixRepo$reponame
+  printf "${YELLOW} Creating New Repo From $reponame to $PrefixRepo$reponame\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $PrefixRepo$reponame
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
   fi
   cd ../
   rm -rf temp/
-  printf "${GREEN}Clone Pixel To Swift Done!\n"
+  printf "${GREEN}Clone Pixel To $TargetOrg Done!\n"
 }
-clonegitlabshpixeltoswift(){
-  printf "${RED} Starting Clone From Gitlab Self Host Pixel\n"
+clonegitlabshpixeltotarget(){
+  printf "${RED} Starting Clone Gitlab Self Host Pixel\n"
   mkdir temp
   reponame=$1
   branch=$2
@@ -203,43 +210,55 @@ clonegitlabshpixeltoswift(){
   fi
   cd temp
   git remote remove origin
-  git remote add origin https://github.com/SwiftOS-DROID/android_$reponame
-  printf "${YELLOW} Creating New Repo by $reponame to android_$reponame\n"
-  bash python3 /workspace/gitpod-workspaces/helperpython/clonerepo.py android_$reponame
+  git remote add origin https://github.com/$TargetOrg/$PrefixRepo$reponame
+  printf "${YELLOW} Creating New Repo From $reponame to $PrefixRepo$reponame\n"
+  bash python3 $CurrentDir/misc/python/clonerepo.py $PrefixRepo$reponame
   if [ -z "$3" ]
   then
-  git checkout -b 12
-  git push --quiet -u origin 12
+  git checkout -b 12.1
+  git push --quiet -u origin 12.1
   else
   git checkout -b $3
   git push --quiet -u origin $3
   fi
   cd ../
   rm -rf temp/
-  printf "${GREEN}Clone Pixel To Swift Done!\n"
+  printf "${GREEN}Clone Pixel To $TargetOrg Done!\n"
 }
 getrepolist(){
-printf "${BLUE}Loading Repository List"
-bash python3 /workspace/gitpod-workspaces/helperpython/getgit.py > repolist
-printf "repo list succesfully loaded!\nBerikut Daftar Repo:"
-printf "${GREEN} $(cat repolist)\nThank You!\n"
+printf "${BLUE}Loading Repo List\n"
+bash python3 $CurrentDir/misc/python/getgit.py > repolist
+printf "Repo List succesfully loaded!\nHere's a List of Repo:"
+printf "${GREEN} $(cat repolist)\nThank you!\n"
 }
 deleterepo(){
-printf "it will remove all repo from deleterepo\n"
-bash python3 /workspace/gitpod-workspaces/helperpython/delgit.py
-printf "Succesfully Delete Repo List Below\n"
-printf "${GREEN} $(cat repolist)\nThank You!\n"
-printf "Refreshing Repo List!\n"
-getrepolist > /dev/null
+  printf "$(cat repolist)\n\n"
+    read -p " Are you sure to delete ? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+fi
+bash python3 $CurrentDir/misc/python/delgit.py
+printf "Successfully Delete These Repo\n"
+printf "${GREEN} $(cat repolist)\nTerima Kasih!\n"
+getrepolist 
 }
 gitpushloop(){
-  printf "${MAGENTA} pushing as Berulang, May Will Eat Time\n\n"
+  printf "${MAGENTA} Pushing repeatedly, it might take some time\n\n"
   Number=$1
-  while [[ $Number -gt 0 ]]
+  while [[ $Number -gt 1 ]]
 do
-    printf "${RED} pushig Commit From HEAD~$Number ${NORMAL}\n"
+    printf "${RED} Pushing Commit From HEAD~$Number ${NORMAL}\n"
     git push --quiet -u origin HEAD~$Number:refs/heads/$2
-    printf "${GREEN} Push Commit Succesfully ${NORMAL}\n"
+    printf "${GREEN} Push HEAD~$Number Completed ${NORMAL}\n"
     ((Number -= 5000 ))
 done
+printf "${RED} Pushing Commit For Last Time"
+git push --quiet -u origin HEAD~$Number:refs/heads/$2
+printf "${GREEN} Pushloop Complete ${NORMAL}\n"
+}
+
+migraterepo() {
+echo SOON!
 }

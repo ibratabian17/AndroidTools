@@ -1,5 +1,9 @@
 from github import Github
-g = Github("INPUTGHPHERE")
+import os
+Token = os.getenv('GithubToken')
+TargetOrg = os.getenv('TargetOrg')
+
+g = Github(Token)
 
 repo = g.get_repo("")
 for b in repo.get_branches():
